@@ -22,25 +22,29 @@ shinyServer(function(input, output, session) {
     
     output$DurationTable <- renderTable({
         
+
+        
+        # days of antibiotics taken
+        taken <- ifelse(input$firstOraldate > input$firstIVdate & input$firstOraltimeperiod != "", 
+                         input$firstOraldate - input$firstIVdate - (0.5 * as.numeric(hour(input$firstIVtime) >= 12)) + (0.5 * as.numeric(input$firstOraltimeperiod == "PM")), NA)
+        # make NA if less than one
+        taken <- ifelse(taken < 1, NA, taken)
+        
+        # days of antibioitcs still to take
+        totake <- ifelse(!is.na(taken) & input$randomisedDuration != "", 
+                         as.numeric(input$randomisedDuration) - taken, NA) 
+                         
+        # make zero if have already taken more than randomised to
+        totake <- ifelse(totake <0, 0, totake)
+        
+        
+        
+        # create a table
         duration <- tribble(
-            ~ Duration, 
-            "Days of IV taken (D9)",
-            "Days of oral antibiotics still to take (D10)") %>% 
-            mutate(value = NA)
-        
-        duration <- duration %>% 
-            mutate(
-                # total days of antibiotics taken
-                value = ifelse(input$firstOraldate > input$firstIVdate & input$firstOraltimeperiod != "" & Duration ==  "Days of IV taken (D9)", 
-                               # Total days of antibiotics taken is correct - logic is find number of days from subtraction of dates, minus 0.5 if started in PM, add 0.5 if ended in PM
-                               input$firstOraldate - input$firstIVdate - (0.5 * as.numeric(hour(input$firstIVtime) >= 12)) + (0.5 * as.numeric(input$firstOraltimeperiod == "PM")) , NA), 
-                # make NA if less than one
-                value = ifelse(Duration == "Days of IV taken (D9)" & value < 1, NA, value)
-            )
-        
-        
-        #  as.numeric(as.Date(as.character(as.Date(FirstOralDoseDateTime))) - as.Date(as.character(as.Date(FirstIVDoseDateTimeInhosp))) - (0.5 * as.numeric(hour(FirstIVDoseDateTimeInhosp) >= 12)) + (0.5 * as.numeric(hour(FirstOralDoseDateTime) >= 12))) == AntiBioTakenDays
-        # ((AntiBioDays - AntiBioTakenDays) == AntiBioStillTakeDays & AntiBioStillTakeDays >= 0) |  ((AntiBioDays - AntiBioTakenDays) <0 & AntiBioStillTakeDays == 0)
+            ~ Duration, ~ value,
+            "Days of IV taken (D9)", taken,
+            "Days of oral antibiotics still to take (D10)", totake) 
+    
         
         
         duration
