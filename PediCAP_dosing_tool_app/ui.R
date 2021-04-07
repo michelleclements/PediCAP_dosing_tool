@@ -29,13 +29,9 @@ shinyUI(fluidPage(
             # Date of first oral dose
             dateInput("firstOraldate", "Date of first oral dose (D14a; must be after date of first IV dose)", 
                       value = Sys.Date(),
-                      min = Sys.Date()-10, max = Sys.Date()+10, format = "dd/mm/yyyy",
+                      min = Sys.Date()-10, max = Sys.Date()+30, format = "dd/mm/yyyy",
                       weekstart = 1),
             
-            
-            # 
-            # selectInput("firstOraldate", "Date of first oral dose", 
-            #             choices = c("", "1", "2", "3", "4")),
             
             # time period of first oral dose
             selectInput("firstOraltimeperiod", "Time period of first oral dose", 
@@ -61,7 +57,7 @@ shinyUI(fluidPage(
             
             tableOutput("DurationTable"),
             
-            tableOutput("ResultsTable")
+            tableOutput("DosingTable")
         )
     )
 ))
