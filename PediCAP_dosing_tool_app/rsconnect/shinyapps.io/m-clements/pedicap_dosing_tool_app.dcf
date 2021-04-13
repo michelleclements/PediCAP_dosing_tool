@@ -5,8 +5,6 @@ account: m-clements
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 3850187
-bundleId: 4393247
+bundleId: 4442988
 url: https://m-clements.shinyapps.io/pedicap_dosing_tool_app/
-when: 1616673008.96049
-asMultiple: FALSE
-asStatic: FALSE
+when: 1617816390.09678
