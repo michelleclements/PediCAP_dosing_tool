@@ -5,7 +5,6 @@
 # PediCAP dosing tool
 
 library(shiny)
-library(shinyTime)
 
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
@@ -23,8 +22,10 @@ shinyUI(fluidPage(
                       min = Sys.Date()-10, max = Sys.Date()+10, format = "dd/mm/yyyy",
                       weekstart = 1),
             
-            # time of first IV dose
-            timeInput("firstIVtime", "Time of first IV dose (24h clock; 00:00 is the start of the next day)", value = strptime("00:00", "%T"), seconds = F),
+            # hour of first IV dose
+            selectInput("firstIVhour", "Hour of first IV dose (24h clock: 0 is the start of the date, 12 is midday)", 
+                        choices = c("", as.character(seq(0, 23)))),
+            
             
             # Date of first oral dose
             dateInput("firstOraldate", "Date of first oral dose (D14a; must be after date of first IV dose)", 

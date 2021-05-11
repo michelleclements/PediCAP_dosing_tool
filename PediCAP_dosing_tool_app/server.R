@@ -11,7 +11,7 @@ library(shiny)
 library(tidyverse)
 library(lubridate)
 
-# Define server logic required to draw a histogram
+# Define server logic
 shinyServer(function(input, output, session) {
     
     
@@ -24,7 +24,7 @@ shinyServer(function(input, output, session) {
         
         # days of antibiotics taken
         taken <- ifelse(input$firstOraldate > input$firstIVdate & input$firstOraltimeperiod != "", 
-                         input$firstOraldate - input$firstIVdate - (0.5 * as.numeric(hour(input$firstIVtime) >= 12)) + (0.5 * as.numeric(input$firstOraltimeperiod == "PM")), NA)
+                         input$firstOraldate - input$firstIVdate - (0.5 * as.numeric(input$firstIVhour >= 12)) + (0.5 * as.numeric(input$firstOraltimeperiod == "PM")), NA)
         # make NA if less than one
         taken <- ifelse(taken < 1, NA, taken)
         
@@ -34,7 +34,6 @@ shinyServer(function(input, output, session) {
                          
         # make zero if have already taken more than randomised to
         totake <- ifelse(totake <0, 0, totake)
-        
         
         
         # create a table
@@ -55,7 +54,7 @@ shinyServer(function(input, output, session) {
         
         # days of antibiotics taken
         taken <- ifelse(input$firstOraldate > input$firstIVdate & input$firstOraltimeperiod != "", 
-                        input$firstOraldate - input$firstIVdate - (0.5 * as.numeric(hour(input$firstIVtime) >= 12)) + (0.5 * as.numeric(input$firstOraltimeperiod == "PM")), NA)
+                        input$firstOraldate - input$firstIVdate - (0.5 * as.numeric(input$firstIVhour >= 12)) + (0.5 * as.numeric(input$firstOraltimeperiod == "PM")), NA)
         # make NA if less than one
         taken <- ifelse(taken < 1, NA, taken)
         
