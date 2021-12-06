@@ -21,10 +21,12 @@ shinyServer(function(input, output, session) {
     
     output$DurationTable <- renderTable({
         
-        
+      firstIVhour <- ifelse(input$firstIVhour == 24, 0, as.numeric(input$firstIVhour))
+      firstIVdate <-  ifelse(input$firstIVhour == 24, as.Date(input$firstIVdate + 1), as.Date(input$firstIVdate))
+
         # days of antibiotics taken
-        taken <- ifelse(input$firstOraldate > input$firstIVdate & input$firstOraltimeperiod != "", 
-                         input$firstOraldate - input$firstIVdate - (0.5 * as.numeric(input$firstIVhour >= 12)) + (0.5 * as.numeric(input$firstOraltimeperiod == "PM")), NA)
+        taken <- ifelse(input$firstOraldate > firstIVdate & input$firstOraltimeperiod != "", 
+                         input$firstOraldate - firstIVdate - (0.5 * as.numeric(firstIVhour >= 12)) + (0.5 * as.numeric(input$firstOraltimeperiod == "PM")), NA)
         # make NA if less than one
         taken <- ifelse(taken < 1, NA, taken)
         
@@ -52,9 +54,13 @@ shinyServer(function(input, output, session) {
     output$DosingTable <- renderTable({
         
         
-        # days of antibiotics taken
-        taken <- ifelse(input$firstOraldate > input$firstIVdate & input$firstOraltimeperiod != "", 
-                        input$firstOraldate - input$firstIVdate - (0.5 * as.numeric(input$firstIVhour >= 12)) + (0.5 * as.numeric(input$firstOraltimeperiod == "PM")), NA)
+      firstIVhour <- ifelse(input$firstIVhour == 24, 0, as.numeric(input$firstIVhour))
+      firstIVdate <-  ifelse(input$firstIVhour == 24, as.Date(input$firstIVdate + 1), as.Date(input$firstIVdate))
+      
+      # days of antibiotics taken
+      taken <- ifelse(input$firstOraldate > firstIVdate & input$firstOraltimeperiod != "", 
+                      input$firstOraldate - firstIVdate - (0.5 * as.numeric(firstIVhour >= 12)) + (0.5 * as.numeric(input$firstOraltimeperiod == "PM")), NA)
+        
         # make NA if less than one
         taken <- ifelse(taken < 1, NA, taken)
         

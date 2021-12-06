@@ -23,8 +23,8 @@ shinyUI(fluidPage(
                       weekstart = 1),
             
             # hour of first IV dose
-            selectInput("firstIVhour", "Hour of first IV dose (24h clock: 0 is the start of the date, 12 is midday)", 
-                        choices = c("", as.character(seq(0, 23)))),
+            selectInput("firstIVhour", "Hour of first IV dose in 24h clock (0-24; 0 is midnight at start of day, 24 is midnight at end of day))", 
+                        choices = c("", as.character(seq(0, 24)))),
             
             
             # Date of first oral dose
@@ -48,7 +48,7 @@ shinyUI(fluidPage(
             
             
             # weight at oral step-down
-            numericInput("weight", "Weight at oral step-down (kg to one decimal) (D12)", 
+            numericInput("weight", "Weight at oral step-down (kg to one decimal place) (D12)", 
                          value = NA,
                         min = 3, max = 35, step = 0.1)
         ),
