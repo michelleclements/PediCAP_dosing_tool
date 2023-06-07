@@ -8,7 +8,7 @@ input <- tibble(
   firstOraldate = as.Date("2021-03-23"), 
   firstOraltimeperiod = "AM", 
   randomisedDrug = "Amoxicillin", 
-  randomisedDuration = "5", 
+  randomisedDuration = "6", 
   weight = 22
 )
 
@@ -37,3 +37,10 @@ results$value[results$item == "Weight band"] <- ifelse(input$weight < 3, "Under 
                                                                                                         "Enter weight"))))))))
 results$value[results$item == "Number of tablets to take in the morning"] <- dosing_info$Tablets_AM[dosing_info$weightband == results$value[results$item == "Weight band"] & dosing_info$drug == input$randomisedDrug]
 results$value[results$item == "Number of tablets to take in the evening"] <- dosing_info$Tablets_PM[dosing_info$weightband == results$value[results$item == "Weight band"] & dosing_info$drug == input$randomisedDrug]
+
+# overwrite if not 6
+results$value[results$item == "Number of tablets to take in the morning"] <- ifelse(input$randomisedDrug %in% c("Co-amoxiclav 4:1", "Co-amoxiclav 14:1") & input$randomisedDuration != 6, 
+                                                                                    "Error: PediCAP duration must be 6 days", results$value[results$item == "Number of tablets to take in the morning"])
+
+results$value[results$item == "Number of tablets to take in the evening"] <- ifelse(input$randomisedDrug %in% c("Co-amoxiclav 4:1", "Co-amoxiclav 14:1") & input$randomisedDuration != 6, 
+                                                                                    "Error: PediCAP duration must be 6 days", results$value[results$item == "Number of tablets to take in the evening"])

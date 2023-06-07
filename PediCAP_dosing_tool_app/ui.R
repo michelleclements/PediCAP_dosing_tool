@@ -40,10 +40,10 @@ shinyUI(fluidPage(
             
             # randomised formulation
             selectInput("randomisedDrug", "Randomised oral formulation (D7)", 
-                        choices = c("", "Amoxicillin", "Co-amoxiclav 7:1")),
+                        choices = c("", "Amoxicillin", "Co-amoxiclav 7:1", "Co-amoxiclav 4:1", "Co-amoxiclav 14:1")),
             
             # randomised days
-            selectInput("randomisedDuration", "Total days of antibiotics randomised to (D8)", 
+            selectInput("randomisedDuration", "Total days of antibiotics randomised to (D8). Must be 6 for PediCAP-B", 
                         choices = c("", "4", "5", "6", "7", "8")),
             
             

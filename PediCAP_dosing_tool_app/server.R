@@ -37,11 +37,14 @@ shinyServer(function(input, output, session) {
         # make zero if have already taken more than randomised to
         totake <- ifelse(totake <0, 0, totake)
         
+        # make error if PediCAP-B not 6
+        totake <- ifelse(input$randomisedDrug %in% c("Co-amoxiclav 4:1", "Co-amoxiclav 14:1") & !is.na(input$randomisedDuration) & input$randomisedDuration != 6, 
+                         "Error: randomised duration in PediCAP-B must be 6 days", as.character(totake))
         
         # create a table
         duration <- tribble(
             ~ Duration, ~ value,
-            "Days of IV taken (D9)", taken,
+            "Days of IV taken (D9)", as.character(taken),
             "Days of oral antibiotics still to take (D10)", totake) 
     
         
@@ -70,6 +73,9 @@ shinyServer(function(input, output, session) {
         
         # make zero if have already taken more than randomised to
         totake <- ifelse(totake <0, 0, totake)
+        
+        # make error if PediCAP-B not 6
+        totake <- ifelse(input$randomisedDrug %in% c("Co-amoxiclav 4:1", "Co-amoxiclav 14:1") & !is.na(input$randomisedDuration) & input$randomisedDuration != 6, NA, totake)
         
         
         # weight band
